@@ -1,0 +1,106 @@
+// Ejemplos promesas ----------------------------------------------------------------------------------------------------------------------
+
+function descarga(completa) {
+    return new promise ((resolve, reject) => {
+        if (completa) {
+            resolve("descargar completa")
+        } else {
+            reject("descarga incompleta")
+        }
+    }, 2000)
+}
+
+
+//------------------------------------------------------------------------------------
+
+function archivo(completo) {
+    return new promise((resolve, reject) => {
+        if(completo) {
+            resolve("archivo leido")
+        } else {
+            reject("archivo incompleto")
+        }
+    }, 30000)
+}
+
+//Ejercicio 1 ----------------------------------------------------------------------------------------------------------------------
+
+function mipromise() {
+    return Promise.resolve("hola")
+}
+
+mipromise.then(console.log)
+
+//Ejercicio 2 ----------------------------------------------------------------------------------------------------------------------
+
+function miPromiseError(cond) {
+    return new promise(resolve, reject) => {
+        if(cond) {
+            resolve("todo bien")
+        } else {
+            reject("todo mal")
+        }
+    }
+}
+
+miPromiseError(true).then(console.log)
+miPromiseError(true).catch(console.log)
+
+// Ejercicio 3 ----------------------------------------------------------------------------------------------------------------------
+
+async function  miPromiseError(cond) {
+    try {
+        return await new Promise((resolve, reject) =>{
+        if(cond) {
+            resolve("todo")
+        } else {
+            reject("salio mal")
+        }
+    });
+     } catch (error) {
+        console.error("error", error.mensage );
+    }
+}
+
+// Ejerecicio 4 5 funciones ----------------------------------------------------------------------------------------------------------------------
+
+const suma = x => x + 1; 
+
+console.log(suma(5));
+
+// 2. segunda función
+
+const multiplicar = (a,b) => a * b 
+console.log(2*3)
+
+// 3 ejemplo ----------------------------------------------------------------------------------------------------------------------
+
+const ejemplo = () => Date.now () 
+
+console.log(ejemplo());
+
+// 4 ejemplo ----------------------------------------------------------------------------------------------------------------------
+
+({n}) => {
+    return n*3
+}
+
+console.log({n:5});
+
+// 5 ejemplo ----------------------------------------------------------------------------------------------------------------------
+
+(x=5) => x*2 
+console.log((x=5) => x*2 (7));
+
+/// ejemplo segundo nivel  ----------------------------------------------------------------------------------------------------------------------
+
+const fs = require('fs').promises;
+
+fs.readFiles('./index.html', 'utf-8');
+then(() => console.log('Archivo escrito'))
+.catch(err => console.error('Error al escribir el archivo:', err));
+
+const fs = require('fs').promises.all;
+
+fs.writeFile('./index.html', 'contenido');
+then(() => console.log('archivo escrito'));

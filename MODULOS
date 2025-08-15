@@ -104,3 +104,159 @@ const fs = require('fs').promises.all;
 
 fs.writeFile('./index.html', 'contenido');
 then(() => console.log('archivo escrito'));
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Node.js incluye un conjunto de **módulos nativos** (built-in modules) que forman parte de su núcleo y no requieren instalación. Estos módulos proporcionan funcionalidades esenciales para tareas como manejo de archivos, redes, procesos del sistema, entre otros. A continuación, te doy una lista de los módulos nativos más relevantes de Node.js (basado en la documentación oficial de Node.js hasta octubre de 2023, ya que mi conocimiento no incluye actualizaciones posteriores), junto con ejemplos prácticos y cuándo usar cada uno. Los presento de forma clara y minimalista, con ejemplos que se conectan a tu interés en aprender programación y crear scripts CLI (como el ejemplo de `greet.js`).
+
+### Módulos nativos de Node.js y sus usos
+
+1. **fs (File System)**  
+   - **Qué hace**: Permite leer, escribir, modificar y gestionar archivos y directorios.  
+   - **Cuándo usarlo**: Cuando necesitas interactuar con el sistema de archivos, como leer configuraciones, guardar datos o manipular directorios.  
+   - **Ejemplo**: Leer un archivo de texto.  
+     ```javascript
+     const fs = require('fs');
+     fs.readFile('example.txt', 'utf8', (err, data) => {
+       if (err) console.error('Error:', err);
+       else console.log('Contenido:', data);
+     });
+     ```  
+   - **Uso práctico**: Crear un script CLI que lea un archivo de configuración o guarde resultados.
+
+2. **http**  
+   - **Qué hace**: Crea servidores y clientes HTTP para manejar solicitudes web.  
+   - **Cuándo usarlo**: Para construir APIs, servidores web simples o hacer solicitudes HTTP.  
+   - **Ejemplo**: Servidor web básico.  
+     ```javascript
+     const http = require('http');
+     const server = http.createServer((req, res) => {
+       res.writeHead(200, { 'Content-Type': 'text/plain' });
+       res.end('Hola, mundo');
+     });
+     server.listen(3000, () => console.log('Servidor en http://localhost:3000'));
+     ```  
+   - **Uso práctico**: Crear una API para una aplicación web, alineada con tu interés en JavaScript y desarrollo de aplicaciones.
+
+3. **path**  
+   - **Qué hace**: Maneja rutas de archivos y directorios de forma compatible con diferentes sistemas operativos.  
+   - **Cuándo usarlo**: Cuando trabajas con rutas de archivos para evitar problemas de compatibilidad (ej. `/` en Linux vs `\` en Windows).  
+   - **Ejemplo**: Unir rutas de forma segura.  
+     ```javascript
+     const path = require('path');
+     const filePath = path.join(__dirname, 'data', 'config.json');
+     console.log('Ruta:', filePath);
+     ```  
+   - **Uso práctico**: Útil en scripts CLI (como `greet.js`) para acceder a archivos en directorios específicos.
+
+4. **process**  
+   - **Qué hace**: Proporciona información y control sobre el proceso actual de Node.js, como argumentos CLI, variables de entorno o salida del programa.  
+   - **Cuándo usarlo**: Para manejar argumentos de línea de comandos, configuraciones del entorno o controlar la ejecución del programa.  
+   - **Ejemplo**: Mostrar argumentos CLI (como en tu script `greet.js`).  
+     ```javascript
+     const args = process.argv.slice(2);
+     console.log('Argumentos:', args);
+     ```  
+   - **Uso práctico**: Procesar entradas en scripts CLI, como hicimos con `--name=Juan`.
+
+5. **os**  
+   - **Qué hace**: Proporciona información sobre el sistema operativo, como CPU, memoria o directorio del usuario.  
+   - **Cuándo usarlo**: Para obtener datos del sistema o adaptar el comportamiento del programa según la plataforma.  
+   - **Ejemplo**: Mostrar memoria libre.  
+     ```javascript
+     const os = require('os');
+     console.log('Memoria libre:', os.freemem() / 1024 / 1024, 'MB');
+     ```  
+   - **Uso práctico**: Monitorear recursos del sistema en herramientas de automatización.
+
+6. **url**  
+   - **Qué hace**: Analiza y manipula URLs, separando componentes como protocolo, host o query.  
+   - **Cuándo usarlo**: Cuando trabajas con URLs en aplicaciones web o APIs.  
+   - **Ejemplo**: Parsear una URL.  
+     ```javascript
+     const url = require('url');
+     const myUrl = new URL('https://example.com:8080/path?name=Juan');
+     console.log('Nombre:', myUrl.searchParams.get('name'));
+     ```  
+   - **Uso práctico**: Procesar parámetros de URLs en servidores web.
+
+7. **events**  
+   - **Qué hace**: Permite crear y manejar eventos personalizados usando el patrón EventEmitter.  
+   - **Cuándo usarlo**: Para manejar eventos asíncronos, como notificaciones o flujos de datos.  
+   - **Ejemplo**: Crear un evento personalizado.  
+     ```javascript
+     const EventEmitter = require('events');
+     const emitter = new EventEmitter();
+     emitter.on('saludo', (name) => console.log(`Hola, ${name}`));
+     emitter.emit('saludo', 'Juan');
+     ```  
+   - **Uso práctico**: Implementar sistemas basados en eventos, como notificaciones en una app.
+
+8. **crypto**  
+   - **Qué hace**: Proporciona funciones criptográficas como hash, encriptación o generación de claves.  
+   - **Cuándo usarlo**: Para manejar contraseñas, firmas digitales o datos seguros.  
+   - **Ejemplo**: Crear un hash de una contraseña.  
+     ```javascript
+     const crypto = require('crypto');
+     const hash = crypto.createHash('sha256').update('miContraseña').digest('hex');
+     console.log('Hash:', hash);
+     ```  
+   - **Uso práctico**: Proteger datos sensibles en aplicaciones.
+
+9. **buffer**  
+   - **Qué hace**: Maneja datos binarios directamente, útil para streams o archivos.  
+   - **Cuándo usarlo**: Cuando trabajas con datos binarios, como imágenes o archivos grandes.  
+   - **Ejemplo**: Convertir texto a buffer.  
+     ```javascript
+     const buffer = require('buffer');
+     const buf = Buffer.from('Hola, mundo');
+     console.log('Buffer:', buf);
+     ```  
+   - **Uso práctico**: Procesar archivos multimedia o streams en aplicaciones.
+
+10. **net**  
+    - **Qué hace**: Crea servidores y clientes TCP para comunicación de bajo nivel.  
+    - **Cuándo usarlo**: Para aplicaciones de red personalizadas, como chats o sockets.  
+    - **Ejemplo**: Servidor TCP simple.  
+      ```javascript
+      const net = require('net');
+      const server = net.createServer((socket) => {
+        socket.write('Hola desde el servidor\n');
+        socket.end();
+      });
+      server.listen(4000, () => console.log('Servidor TCP en puerto 4000'));
+      ```  
+    - **Uso práctico**: Crear aplicaciones de red en tiempo real.
+
+11. **child_process**  
+    - **Qué hace**: Ejecuta procesos externos o scripts desde Node.js.  
+    - **Cuándo usarlo**: Para ejecutar comandos del sistema o scripts en paralelo.  
+    - **Ejemplo**: Ejecutar un comando `ls`.  
+      ```javascript
+      const { exec } = require('child_process');
+      exec('ls', (err, stdout) => {
+        if (err) console.error('Error:', err);
+        else console.log('Archivos:', stdout);
+      });
+      ```  
+    - **Uso práctico**: Automatizar tareas del sistema en scripts CLI.
+
+12. **util**  
+    - **Qué hace**: Proporciona utilidades como formateo de texto, inspección de objetos o promesas.  
+    - **Cuándo usarlo**: Para tareas generales como depuración o conversión de callbacks a promesas.  
+    - **Ejemplo**: Inspeccionar un objeto.  
+      ```javascript
+      const util = require('util');
+      const obj = { nombre: 'Juan', edad: 30 };
+      console.log(util.inspect(obj, { colors: true }));
+      ```  
+    - **Uso práctico**: Mejorar la depuración en scripts complejos.
+
+### Notas generales
+- **Otros módulos**: Node.js tiene más módulos nativos (ej. `dns`, `zlib`, `stream`, `tls`, `vm`), pero los listados son los más comunes. Si necesitas detalles de alguno específico, pídeme y lo explico.
+- **Cuándo elegir módulos nativos**: Usa estos módulos para evitar dependencias externas cuando la funcionalidad es simple. Para tareas complejas (ej. servidores web robustos), considera bibliotecas como Express (para `http`) o `fs-extra` (para `fs`).
+- **Relación con tu interés**: Estos módulos son clave para scripts CLI (como `greet.js`) y aplicaciones. Por ejemplo, combina `process` y `fs` para leer configuraciones desde la CLI, o `http` para crear APIs.
+- **Ejecución**: Todos los ejemplos asumen que tienes Node.js instalado. Crea un archivo `.js`, copia el código y ejecuta con `node archivo.js`.
+
+Si quieres profundizar en un módulo, un ejemplo más complejo, o conectar esto con tu script `greet.js` (ej. guardar saludos en un archivo con `fs`), dime y lo adapto.
